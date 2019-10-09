@@ -1,0 +1,105 @@
+<style lang="less">
+
+.header {
+    margin: 90rpx 0 90rpx 50rpx;
+    text-align: center;
+    width: 650rpx;
+    height: 300rpx;
+    line-height: 450rpx;
+}
+
+.header image {
+    width: 200rpx;
+    height: 200rpx;
+}
+ 
+ 
+
+.bottom {
+    border-radius: 80rpx;
+    margin: 70rpx 50rpx;
+    font-size: 35rpx;
+} 
+  
+</style>
+ 
+<template>
+
+  <div>
+    <div class="header">
+        <image src="../assets/images/login.png" /> 
+    </div>
+
+    <div class="content">
+        <div>
+            <img src="../assets/images/usr.png"/>
+            <input name="title" class="weui-input" placeholder="用户名" />
+        </div>
+        <div><img src="../assets/images/pw.png"/>
+            <input name="title" class="weui-input" placeholder="密码" />
+        </div>
+    </div>
+
+    <button class="bottom" type="primary" lang="zh_CN" >
+        登录
+    </button>
+  </div>
+
+ </template>
+
+<script>
+  import wepy from '@wepy/core' 
+  import store from '../store';
+
+  wepy.page({
+    store,
+    data: {
+        userInfo:null,
+        
+    },
+
+    methods: {      
+
+       
+      
+      
+      queryUserInfo: function () {
+        console.log(`${this.$app.$options.globalData.host}/user/selectByOpenid?openid=${this.$app.$options.globalData.openid}`)
+        let that = this
+        wx.request({
+            url: `${this.$app.$options.globalData.host}/user/selectByOpenid?openid=${this.$app.$options.globalData.openid}`,
+            header: {
+                'content-type': 'application/json'
+            },
+            success: function (res) {
+                console.log('查询出用户信息：',res);
+                that.$app.$options.globalData.userInfo = res.data
+                wx.switchTab({
+                    url: '/pages/index2'
+                })
+            }
+        })
+      }, 
+
+       
+    },
+
+    onLoad:function(options) {
+        
+         
+    },
+
+    
+    
+    
+    
+  });
+</script>
+<config>
+{
+    "navigationBarTitleText": "商家登录",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+  
+}
+</config>

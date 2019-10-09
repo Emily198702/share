@@ -1,0 +1,9 @@
+{
+    "navigationBarTitleText": "搜索",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "listitem": "../components/listitem"
+    }
+}

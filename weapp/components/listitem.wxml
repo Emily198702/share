@@ -1,0 +1,49 @@
+
+<view class="listitem">
+  
+  <view wx:for="{{ goodsList }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ item.id }}" class="detail">
+   
+    <view class="userdiv">
+      <view class="userinfo">
+        <image src="{{ item.avatarUrl }}"></image>
+        <view>
+          <label class="nickname">{{ item.nickName }}</label>
+          <category bind_init="_initComponent" cat-id="{{item.category}}"></category> 
+        </view>
+      </view>
+      <view wx:if="{{ pageType==1 }}" class="operation">
+        <image src="../assets/images/edit.png" data-wpy-evt="39-20" bindtap="_proxy" data-wpytap-a="{{ item }}"></image>
+        <image src="../assets/images/delete.png" data-wpy-evt="39-21" bindtap="_proxy" data-wpytap-a="{{ item }}"></image>
+      </view>
+    </view>
+    <view data-wpy-evt="39-22" bindtap="_proxy" data-wpytap-a="{{ item }}" class="goodsdiv">
+        <view class="desc">【{{item.title}}】{{item.description}}</view>          
+        <imgshow bind_init="_initComponent" img-str="{{item.image}}" wx:if="{{ item.image!=='' }}"></imgshow>
+        <view class="time"> 
+          <dateshow bind_init="_initComponent" date-str="{{item.createDate}}"></dateshow> 
+          <label> 发布</label>
+          <label wx:if="{{ pageType==0 }}" data-wpy-evt="39-23" bindtap="_proxy" data-wpytap-a="{{ item }}" style="margin-left:300rpx" class="num">查看详情>></label>
+        </view>
+        <view wx:if="{{ pageType!=0 }}" class="location">
+          <image src="../assets/images/location.png"></image>
+          <label>{{item.location}}</label>
+        </view>
+
+        
+    </view>
+
+    <view wx:if="{{ pageType!=0 }}" class="other"> 
+      <view class="other1">
+        <image src="../assets/images/browse.png"></image>
+        
+        <label class="num">{{item.browse}}</label>
+          人浏览
+        <image src="../assets/images/like.png"></image>
+        <label class="num">{{item.likeMe}}</label>
+          人点赞
+      </view>
+      <label data-wpy-evt="39-24" bindtap="_proxy" data-wpytap-a="{{ item }}" class="num">查看详情>></label>
+      </view>
+  </view>
+   
+</view>

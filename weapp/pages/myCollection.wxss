@@ -1,0 +1,25 @@
+.tabdiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  font-size: 13px;
+  border-bottom: 2px solid lightgrey;
+  background-color: white;
+}
+.normal {
+  border-bottom: 2px solid transparent;
+  line-height: 28px;
+  width: 20%;
+  text-align: center;
+}
+.selected {
+  color: #f62a94;
+  border-bottom: 2px solid #f62a94;
+  line-height: 28px;
+  width: 20%;
+  text-align: center;
+}
+

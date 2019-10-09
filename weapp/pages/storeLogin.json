@@ -1,0 +1,7 @@
+{
+    "navigationBarTitleText": "商家登录",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {}
+}

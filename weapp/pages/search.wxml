@@ -1,0 +1,18 @@
+
+
+<view class="container">
+
+  <view class="search"> 
+
+    <view class="search2"> 
+        <image src="../assets/images/search.png"></image>     
+        <input type="search" placeholder="搜索" required="" value="{{ condition }}" bindinput="_proxy" data-model-id="5" class="weui-search-bar__input">
+    </input></view>  
+    <button data-wpy-evt="9-0" bindtap="_proxy">搜索</button>
+  </view>
+
+  <listitem bind_init="_initComponent" goods-list="{{goodsList}}" style="width:100%"></listitem>
+
+  <view wx:if="{{ noMore }}" class="nomore">--没有更多了--</view>
+
+</view>

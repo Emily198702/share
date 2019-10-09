@@ -1,0 +1,123 @@
+<style lang="less">
+.tabdiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    font-size: 13px;   
+    border-bottom: 2px solid lightgrey;
+    background-color: white;
+}
+
+.normal{ 
+    border-bottom: 2px solid transparent;
+    line-height: 28px;
+    width: 20%;
+    text-align: center;
+}
+
+.selected{
+    color: #f62a94;
+    border-bottom: 2px solid #f62a94;
+    line-height: 28px;
+    width: 20%;
+    text-align: center;
+
+} 
+
+ 
+  
+</style>
+ 
+<template>
+
+  <div class="container">
+
+    <div class="tabdiv"> 
+        <div @tap="selectMe(0)" class="normal" :class="{selected: selectedId == 0}" >收藏物品</div>
+        <div @tap="selectMe(1)" class="normal" :class="{selected: selectedId == 1}" >收藏店铺</div>
+
+    </div>
+
+    <listitem style="width:100%" goods-list = "{{goodsList}}" page-type="0"></listitem>
+
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import store from '../store';
+
+ 
+  wepy.page({
+    store,
+    data: {
+        userInfo:null,
+        goodsList:[],
+        selectedId:0,
+     },
+
+    methods: {
+
+        selectMe:function(index){
+            this.selectedId = index 
+            this.getData()
+        },
+
+        getData:function(){
+
+            let url = `${this.$app.$options.globalData.host}/selectCGoods?openid=${this.userInfo.openid}`
+            let _this = this
+            wx.request({
+                url: url,
+                method: 'GET',  
+                header: {
+                    'content-type': 'application/json'
+                }, 
+
+                success: function (res) {
+                    if (res.statusCode == 200) {
+                        console.log(res.data)
+                        _this.goodsList = res.data
+
+                    } else {
+                        console.log("获取我的收藏异常" + res.statusCode)
+                    }
+                    
+                },
+                fail: function () {
+                    console.log("获取我的收藏数据失败");
+                } 
+            })
+        },
+
+         
+
+    },
+
+    onLoad:function(options) {
+      
+      this.userInfo = this.$app.$options.globalData.userInfo
+
+      this.getData()
+    },
+
+    
+  });
+</script>
+
+<config>
+{
+    "navigationBarTitleText": "我的收藏",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+
+    
+    usingComponents: {
+       
+      listitem: '../components/listitem',
+    }
+}
+</config>

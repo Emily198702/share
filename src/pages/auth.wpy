@@ -1,0 +1,228 @@
+<style lang="less">
+
+.header {
+    margin: 90rpx 0 90rpx 50rpx;
+    text-align: center;
+    width: 650rpx;
+    height: 300rpx;
+    line-height: 450rpx;
+}
+
+.header image {
+    width: 200rpx;
+    height: 200rpx;
+}
+
+.content {
+    margin-left: 50rpx;
+    margin-bottom: 90rpx;
+}
+
+.content text {
+    display: block;
+    color: #9d9d9d;
+    margin-top: 40rpx;
+}
+
+.bottom {
+    border-radius: 80rpx;
+    margin: 70rpx 50rpx;
+    font-size: 35rpx;
+} 
+  
+</style>
+ 
+<template>
+
+  <div v-if="canIUse">
+    <div class="header">
+        <image src="../assets/images/login.png"></image>
+    </div>
+
+    <div class="content">
+        <div>申请获取以下权限</div>
+        <text>获得你的公开信息(昵称，头像等)</text>
+    </div>
+
+    <button class="bottom" type="primary" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">
+        授权登录
+    </button>
+  </div>
+
+  <div v-else>请升级微信版本</div > 
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import store from '../store';
+  const APP_ID = 'wx2ff9336c8b22516d'; 
+  const APP_SECRET = '594abf8575bcf4dd1ca510b479554542'; 
+ 
+  wepy.page({
+    store,
+    data: {
+        userInfo:null,
+        hasUserInfo:false,
+        canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    },
+
+    methods: {      
+
+      bindGetUserInfo: function (e) {
+        let userInfo = e.$wx.detail.userInfo
+        let that = this
+        let openid = this.$app.$options.globalData.openid
+        if(openid){
+          that.addUser(userInfo);
+        }else{
+          wx.login({
+            success: function (res) {
+              wx.request({
+                //获取openid接口
+                url: 'https://api.weixin.qq.com/sns/jscode2session',
+                data: {
+                  appid: APP_ID,
+                  secret: APP_SECRET,
+                  js_code: res.code,
+                  grant_type: 'authorization_code'
+                },
+                method: 'GET',
+                success: function (res) {
+                  console.log(res.data)
+                  that.$app.$options.globalData.openid = res.data.openid;
+                  that.addUser(userInfo);
+                }
+              })
+            }
+          })  
+        }
+      },   
+      
+      
+      addUser:function(userInfo){
+
+        if (userInfo) {
+          //用户按了允许授权按钮
+          userInfo.openid = this.$app.$options.globalData.openid
+          var that = this;
+          //插入登录的用户的相关信息到数据库
+          wx.request({
+              url: `${that.$app.$options.globalData.host}/user/add`,
+              data: userInfo,
+              method: 'POST',       
+              header: {
+                  'content-type': 'application/json'
+              },
+              success: function (res) {
+                  //从数据库获取用户信息
+                  console.log(res.data);
+                  that.$app.$options.globalData.userInfo = res.data;
+                  console.log("插入小程序登录用户信息成功！");
+              }
+          });
+          //授权成功后，跳转进入小程序首页
+          wx.switchTab({
+              url: '/pages/index2'  
+          })
+        } else {
+          //用户按了拒绝按钮
+          wx.showModal({
+              title:'警告',
+              content:'您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+              showCancel:false,
+              confirmText:'返回授权',
+              success:function(res){
+                  if (res.confirm) {
+                      console.log('用户点击了“返回授权”')
+                  } 
+              }
+          })
+        }
+      },
+      
+      
+      queryUserInfo: function () {
+        console.log(`${this.$app.$options.globalData.host}/user/selectByOpenid?openid=${this.$app.$options.globalData.openid}`)
+        let that = this
+        wx.request({
+            url: `${this.$app.$options.globalData.host}/user/selectByOpenid?openid=${this.$app.$options.globalData.openid}`,
+            header: {
+                'content-type': 'application/json'
+            },
+            success: function (res) {
+                console.log('查询出用户信息：',res);
+                that.$app.$options.globalData.userInfo = res.data
+                wx.switchTab({
+                    url: '/pages/index2'
+                })
+            }
+        })
+      }, 
+
+       
+    },
+
+    onLoad:function(options) {
+        
+      var that = this;
+      // 查看是否授权
+      wx.getSetting({
+        success: function (res) {
+          if (res.authSetting['scope.userInfo']) {
+            wx.getUserInfo({
+              success: function (res) {
+                //从数据库获取用户信息
+                let openid = that.$app.$options.globalData.openid
+                if(openid){
+                  that.queryUserInfo();
+                }else{
+                  wx.login({
+                    success: function (res) {
+                      wx.request({
+                        //获取openid接口
+                        url: 'https://api.weixin.qq.com/sns/jscode2session',
+                        data: {
+                          appid: APP_ID,
+                          secret: APP_SECRET,
+                          js_code: res.code,
+                          grant_type: 'authorization_code'
+                        },
+                        method: 'GET',
+                        success: function (res) {
+                          console.log(res.data)
+                          that.$app.$options.globalData.openid = res.data.openid;
+                          that.queryUserInfo();
+                        }
+                      })
+                    }
+                  })
+
+                  
+                }
+
+              }
+            });
+          }
+        }
+      })     
+    },
+
+    
+    
+    
+    
+  });
+</script>
+<config>
+{
+    "navigationBarTitleText": "授权登陆",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+ 
+    
+    usingComponents: {
+       
+      listitem: '../components/listitem',
+    }
+}
+</config>

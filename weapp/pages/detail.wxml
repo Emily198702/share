@@ -1,0 +1,64 @@
+
+<view>
+  <view class="container">
+    <view class="userdiv">
+      <image src="{{ item.avatarUrl }}"></image>
+      <view>
+        <label class="nickname">{{ item.nickName }}</label>
+         
+        <category bind_init="_initComponent" cat-id="{{item.category}}"></category>
+        <view class="location">
+          <image src="../assets/images/location.png"></image>
+          <label>{{item.location}}</label>
+        </view>
+      </view>
+    </view>
+    <view class="goodsdiv">
+      <view class="desc">【{{item.title}}】{{item.description}}</view>          
+      <imgshow bind_init="_initComponent" img-str="{{item.image}}" type="big"></imgshow>
+      
+      <view class="other1">
+        <image src="../assets/images/browse.png"></image>
+        
+        <label class="num">{{item.browse}}</label>
+          人浏览
+        <image src="{{likeSrc}}" data-wpy-evt="11-0" bindtap="_proxy"></image>
+        <label class="num">{{item.likeMe}}</label>
+          人点赞
+      </view>
+    </view>       
+  </view>
+
+  <view class="time">
+    <view class="div1"> 
+      <label> 发布时间：</label>
+      <dateshow bind_init="_initComponent" date-str="{{item.createDate}}"></dateshow>        
+    </view> 
+    <view class="div2"> 
+      <label> 联系我时，请说是在二手母婴上看到的信息哦... </label>       
+    </view> 
+  </view>
+
+
+  <view class="opdiv">
+    <view data-wpy-evt="11-1" bindtap="_proxy" class="div1">
+      <image src="../assets/images/main.png"></image>
+      <label>首页</label>
+    </view>
+    <view class="div1">
+      <button open-type="share">   
+        <image src="../assets/images/trans.png"></image>
+      </button>  
+      <label>转发</label>
+    </view>
+    <view data-wpy-evt="11-2" bindtap="_proxy" class="div1"> 
+      <image src="{{collectSrc}}"></image>
+      <label>收藏</label>
+    </view>
+    <view data-wpy-evt="11-3" bindtap="_proxy" class="div2">
+      <label wx:if="{{ false }}">发表评论</label> 
+    </view>
+    
+
+  </view>
+</view>

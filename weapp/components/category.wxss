@@ -1,0 +1,12 @@
+                   
+.category{
+    background-color: #12dba5;
+    color: white;
+    font-size: 26rpx;
+    border-radius: 6rpx;
+    padding: 2rpx 2rpx;
+    font-weight: 100;
+    width:110rpx;
+    white-space: nowrap;
+}
+

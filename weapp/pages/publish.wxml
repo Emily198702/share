@@ -1,0 +1,12 @@
+
+
+<view class="container">
+    <view class="notice">
+        免责声明：平台只负责发布、展示，商品等其他信息与平台本身无关，平台不负任何责任。
+    </view>
+    <view class="title">———请选择您要发布的栏目———</view>
+
+    <categories bind_init="_initComponent" page-type="new"></categories>
+    
+
+</view>

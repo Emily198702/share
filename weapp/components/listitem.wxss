@@ -1,0 +1,98 @@
+                   
+.listitem {
+
+}
+.detail{
+    color: #636363;
+    padding: 30rpx;
+    margin-bottom: 15rpx;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+.userdiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.userinfo{
+  display: flex;
+  flex-direction: row;
+}
+
+.userinfo image{
+    width:110rpx;
+    height:110rpx;
+    margin-right: 25rpx;
+}
+
+.userinfo .nickname{
+    color:#39a2bb;
+    font-size: 32rpx;
+}
+
+
+.operation{
+  float: right;
+}
+.operation image{
+  width:50rpx;
+  height:50rpx;
+  margin:10rpx;
+} 
+
+
+.goodsdiv .desc{
+    font-size: 30rpx;
+    margin:10rpx 0;
+}
+
+.goodsdiv .time{
+    display: flex;
+    flex-direction: row;
+    font-size: 24rpx;
+    
+}
+.goodsdiv .location{
+    font-size: 26rpx;
+    color: #39a2bb;
+    margin:10rpx 0;
+    
+}
+
+.goodsdiv .location image{
+    width: 30rpx;
+    height: 30rpx;
+    margin-right:5rpx;
+}
+
+.other{
+    padding: 0 20rpx;
+    background-color: #f3f3f3;
+    height: 56rpx;
+    color:#606060;
+    font-size: 26rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.other1{
+    display: flex;
+    align-items: center;
+    
+}
+
+.other1 image{
+    width: 38rpx;
+    height: 38rpx;
+    margin:0 10rpx;
+}
+
+.other1 .num{
+    color: #39a2bb;
+}
+
+

@@ -1,0 +1,8 @@
+
+<view class="categories">
+  <view wx:for="{{ categories }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ item.id }}" data-wpy-evt="40-0" bindtap="_proxy" data-wpytap-a="{{ item }}" class="item1">
+      <image src="{{item.img}}"></image> 
+      {{item.name}}
+  </view>
+    
+</view>

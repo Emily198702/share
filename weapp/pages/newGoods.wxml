@@ -1,0 +1,63 @@
+
+
+<form data-wpy-evt="7-0" bindsubmit="_proxy" class="content">
+  <view class="googsdiv">
+    <view class="title">
+      <input name="title" placeholder="标题品类型号等" value="{{ goods.title }}" bindinput="_proxy" data-model-id="0" class="weui-input"></input>
+    </view>
+    <view class="desc">
+      <textarea name="description" placeholder="描述宝贝使用感受..." value="{{ goods.description }}" bindinput="_proxy" data-model-id="1" style="height: 8em" class="weui-textarea"></textarea>
+    </view>
+    <view class="img">
+
+      <view wx:for="{{tempFilePaths}}" wx:key="{{index}}">
+        <image src="../assets/images/del.png" data-index="{{index}}" data-wpy-evt="7-1" bindtap="_proxy" class="del"></image>
+        <image src="{{item }}" data-index="{{index}}" data-wpy-evt="7-2" bindtap="_proxy" class="addimage"></image>
+      </view>
+
+      <view>        
+        <image src="../assets/images/addimg.png" data-wpy-evt="7-3" bindtap="_proxy" class="addimage"></image>     
+      </view>
+              
+    </view>
+  </view>
+
+  <view class="contact"> 
+    <view class="contact1">
+      <view class="contitle"><label>联</label><label>系</label><label>人：</label> </view>
+      <input name="contact" placeholder="请输入联系人" value="{{ goods.contact }}" bindinput="_proxy" data-model-id="2" class="weui-input"></input>
+    </view>
+    <view class="contact1">
+      <view class="contitle"><label>联</label><label>系</label><label>方</label><label>式：</label></view>
+        <input name="tel" placeholder="请输入您的联系方式" value="{{ goods.tel }}" bindinput="_proxy" data-model-id="3" class="weui-input"></input>
+    </view>
+
+    <view class="locate">
+      <view class="contact1">
+        <view class="contitle"> <label>具</label><label>体</label><label>位</label><label>置：</label> </view>
+        <input name="location" placeholder="请输入您的具体位置" value="{{ goods.location }}" bindinput="_proxy" data-model-id="4" class="weui-input"></input>
+      </view>
+      <image src="../assets/images/location.png" data-wpy-evt="7-4" bindtap="_proxy"></image>
+    </view>
+  </view>
+
+  <view wx:if="{{ !isEdit }}" class="istop">
+    <label>是否置顶</label>
+    <switch checked="" name="top"></switch>
+  </view>
+
+  <view class="agree">
+    <checkbox checked="{{isAgree}}" data-wpy-evt="7-5" bindtap="_proxy"></checkbox>
+    阅读并同意<navigator url="/pages/attention" class="weui-agree__link">《发布须知》</navigator>
+   </view>
+   
+  <button form-type="submit" class="addbtn">发布</button> 
+
+  <view wx:if="{{ mapshow }}" class="addlist">
+      <view wx:for="{{ addresses }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ item.id }}" data-wpy-evt="7-6" bindtap="_proxy" data-wpytap-a="{{ item }}" class="address">
+          {{item.address.name}}
+          <image src="../assets/images/selected.png" wx:if="{{ selected==item.id }}"></image>
+      </view>
+  </view>
+
+</form>

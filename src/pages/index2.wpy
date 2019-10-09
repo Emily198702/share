@@ -1,0 +1,240 @@
+<style lang="less">
+  
+  .search{
+    background-color: #f62a94;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    color:white;
+  }
+
+
+  .search2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: white;
+    border-radius: 15px;
+    margin: 5px;
+    width: 65%;
+    image{
+      width: 40rpx;
+      height: 40rpx;
+       
+    }
+    input{
+      height: 10px;
+      font-size: 26rpx;
+    }
+   }
+
+    .navi{
+      font-size: 32rpx;
+      color: #8a8a8a;
+      background-color: white;
+      margin: 15rpx 0;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      height: 30px;
+      .normal{ 
+        border-bottom: 2px solid transparent;
+        line-height: 28px;
+        width: 20%;
+        text-align: center;
+      }
+
+      .selected{
+        color: #f62a94;
+        border-bottom: 2px solid #f62a94;
+        line-height: 28px;
+        width: 20%;
+        text-align: center;
+      } 
+     }
+    
+  .info {
+    padding-right: 10rpx;
+  }
+  .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .userinfo-avatar {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+  }
+
+  .userinfo-nickname {
+    color: #aaa;
+  }
+  .slide {
+    width: 640rpx;
+    display: flex;
+    border: 1rpx solid #ccc;
+    font-size: 28rpx;
+    align-items: center;
+    box-sizing: border-box;
+    .left {
+      width: 750rpx;
+      padding: 20rpx;
+    }
+    .right {
+      display: flex;
+      .right-item {
+        padding: 20rpx 30rpx;
+        background-color: red;
+        color: #fff;
+      }
+    }
+  }
+
+  .nomore{
+    font-size:10px;
+    color:#808080;
+    background-color: white;
+    text-align: center;
+    width:100%;
+    padding:20rpx;
+    margin-top:-15rpx;
+  }
+</style>
+ 
+<template>
+
+  <div>
+    <div class="search"> 
+      <span>︿</span>
+      <div class="search2"> 
+        <img src="../assets/images/search.png"/>     
+        <input type="search" class="weui-search-bar__input" placeholder="搜索" required="" @tap="clickMe">
+      </div>
+    </div>
+
+    <categories></categories>
+
+    <div class="navi">
+        <div @tap="selectMe(0)" class="normal" :class="{selected: selectedId == 0}" >最新闲置</div>
+        <div @tap="selectMe(1)" class="normal" :class="{selected: selectedId == 1}" >商家活动</div>
+    </div>
+
+    <listitem goods-list = "{{goodsList}}"></listitem>
+     
+    <div class="nomore" v-if="noMore">--没有更多了--</div>
+   </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import eventHub from '../common/eventHub' 
+  import store from '../store' 
+  import toast from '../mixins/toast' 
+ 
+  wepy.page({
+    store,
+    hooks: {
+      // Page 级别 hook, 只对当前 Page 的 setData 生效。
+      'before-setData': function (dirty) {
+         
+      }
+    },
+    data: {
+      goodsList:[],
+      selectedId:0,
+      page:0,
+      pageSize:5,
+      noMore:false
+    },
+
+    computed: {    
+    },  
+
+    methods: {
+      selectMe:function(index){
+        this.selectedId = index 
+      },
+
+      clickMe:function(){
+        console.log(this)
+        this.$navigate( {url:'/pages/search'})
+      },
+
+      getData:function(page){
+        let _this = this
+         
+        wx.request({
+          url: `${this.$app.$options.globalData.host}/selectByPage?page=${this.page}&pageSize=${this.pageSize}`,
+          method: 'GET',  
+          header: {
+            'content-type': 'application/json'
+          }, 
+          success: function (res) {
+            if (res.statusCode == 200) {
+              console.log(res.data)
+              let len = res.data.length
+              if(len==0){
+                _this.noMore = true
+              }else{
+                _this.goodsList = _this.goodsList.concat(res.data)  
+              }
+              
+            } else {
+              console.log("首页获取列表信息异常" + res.statusCode)
+            }
+            wx.stopPullDownRefresh()
+          },
+          fail: function () {
+            console.log("获取首页数据失败");
+          },
+          complete: function () {
+            // complete
+          }
+        })
+      },
+
+    },
+
+    onLoad () {
+      console.log("onLoad...")
+      this.getData(0) 
+    },
+
+    onPullDownRefresh() {
+      console.log('下拉刷新 ')
+      this.page = 0
+      this.goodsList = []
+      this.getData(this.page)
+    },
+
+    onReachBottom(){
+      this.page = this.page + 1
+      this.getData(this.page)
+    }
+    
+
+  });
+</script>
+<config>
+{
+    "navigationBarTitleText": "二手母婴",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f62a94",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh":true,
+    "onReachBottomDistance":50,
+
+    
+    usingComponents: {
+      listitem: '../components/listitem',
+      categories: '../components/categories',
+    }
+}
+</config>

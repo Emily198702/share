@@ -1,0 +1,263 @@
+<style lang="less">
+  .container{
+    font-size: 11px;
+  }
+   
+  .userinfo {
+    background-color: #f62a94;
+    display: flex;
+    flex-direction: row;
+    height: 240rpx;
+    width: 100%;
+    
+  }
+  .userinfo-avatar {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    margin:0 30rpx;
+  }
+
+  .userinfo-nickname {
+    font-size: 12px;
+    color: white;
+    
+  }
+  .join{
+    color:#f9acd4;
+    font-size: 10px;
+    background-color: #470d22;
+    border-radius: 20rpx;
+    padding:0 20rpx;
+    display: flex;
+    align-items: center;
+    image{
+      height: 40rpx;
+      width:40rpx;
+    }
+  }
+
+  .userdiv{
+    width: 92%;
+    background-color: white;
+    border-radius: 20rpx;
+    margin-bottom: 25rpx;
+  }
+
+  #div1{
+    margin-top:-90rpx;
+    height: 140rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+    font-size: 11px;
+    .num{
+      color: #f62a94;
+      font-size: 13px;
+      font-weight: bold;
+    }
+  }
+ 
+
+  .div1{
+    font-size: 12px;
+    font-weight: bold;
+    padding:15rpx 30rpx;
+    display: flex;
+    align-items: center;
+    border-bottom:1px solid rgb(230, 230, 230);
+    image{
+      width: 50rpx;
+      height: 50rpx;
+      margin-right: 20rpx;
+    }
+  }
+  
+  .div2{
+
+    display: flex;
+    flex-direction: row;
+
+    .div3{
+      display: flex;
+      flex-direction: column;
+      padding:15rpx 40rpx;
+      align-items: center;
+      image{
+        width: 60rpx;
+        height: 60rpx;
+        border-radius: 50%;
+        margin-bottom: 10rpx;
+        padding:10rpx;
+      }
+    }
+  }
+   
+</style>
+ 
+<template>
+
+  <div class="container">
+
+    <div class="userinfo">
+      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
+      <div >
+        <div class="userinfo-nickname">{{ userInfo.nickName }}</div>
+        <div class="join">
+          <img src="../assets/images/join.png"/>  加盟合伙人 ></div>
+      </div>
+    </div>
+
+    <div class="userdiv" id="div1">
+      <div>
+        <div class="num">{{userInfo.money}}</div>
+        <div>钱包</div>
+      </div>
+      <div>
+        <div class="num">{{collectNum}}</div>
+        <div>收藏</div>
+      </div>
+    </div>
+     
+    <div class="userdiv" >
+      <div class="div1"><img src="../assets/images/star.png"/>我的服务</div>
+      <div class="div2">
+        <div class="div3" @tap="gotogoods">
+          <image src="../assets/images/my1.png"  style="background-color: #fba771" />
+          <span>我的闲置</span>
+        </div>
+        <div class="div3">
+          <image src="../assets/images/my2.png" style="background-color: #f88888" />
+          <span>合伙人</span>
+        </div>
+        <div class="div3" @tap="gotocollection">
+          <image src="../assets/images/my3.png"  style="background-color: #df764d" />
+          <span>我的收藏</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="userdiv" >
+      <div class="div1"><img src="../assets/images/star.png"/>平台服务</div>
+      <div class="div2">
+        <div class="div3">
+          <image src="../assets/images/pf1.png" style="background-color: #61ddc1"/>
+          <span>联系客服</span>
+        </div>
+        <div class="div3">
+          <image src="../assets/images/pf2.png" style="background-color: #3dc3ec" />
+          <span>帮助中心</span>
+        </div>
+        <div class="div3">
+          <image src="../assets/images/pf3.png" style="background-color: #6798ef" />
+          <span>关于我们</span>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="userdiv">
+      <div class="div1"><img src="../assets/images/star.png"/>商家服务</div>
+      <div class="div2">
+        <div class="div3">
+          <image src="../assets/images/store1.png"  style="background-color: #97c9fd" />
+          <span>我要入驻</span>
+        </div>
+        <div class="div3" @tap="gotostore">
+          <image src="../assets/images/store2.png" style="background-color: #dca5f8"  />
+          <span>商家入口</span>
+        </div>
+         
+      </div>
+    </div>
+
+     
+   </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import eventHub from '../common/eventHub';
+  import { mapState } from '@wepy/x';
+  import store from '../store';
+  import testMixin from '../mixins/test'
+
+  wepy.page({
+     
+    data: {
+      userInfo: null,
+      collectNum:0
+    },
+
+    computed: {
+      
+    },
+
+    methods: {
+
+       getCNum:function(){
+        let _this = this
+         
+        wx.request({
+          url: `${this.$app.$options.globalData.host}/user/getCNum?openid=${this.userInfo.openid}`,
+          method: 'GET',  
+          header: {
+            'content-type': 'application/json'
+          }, 
+          success: function (res) {
+            if (res.statusCode == 200) {
+              console.log(res.data)
+              _this.collectNum = res.data 
+            } else {
+              console.log("index.js wx.request statusCode" + res.statusCode)
+            }
+              
+          },
+          fail: function () {
+            console.log("获取收藏数量失败");
+          }, 
+        })
+      },
+
+      gotogoods:function(){
+        this.$navigate({url:'/pages/myGoods'}) 
+      },
+
+      gotocollection:function(){
+        this.$navigate({url:'/pages/myCollection'}) 
+      },
+
+
+      gotostore:function(){
+        this.$navigate({url:'/pages/storeLogin'}) 
+      }
+      
+
+    },
+
+    onLoad () {
+      
+    },
+
+    onShow(){
+      this.userInfo = this.$app.$options.globalData.userInfo 
+      this.getCNum()
+    }
+
+    
+  });
+</script>
+<config>
+{
+    "navigationBarTitleText": "个人中心",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+    
+    usingComponents: {
+       
+    }
+}
+</config>

@@ -1,0 +1,17 @@
+                   
+.imgshow {
+    
+}
+.image1{
+    width: 150rpx;
+    height: 150rpx;
+    margin:0 8rpx; 
+}
+
+.image2{
+    width: 650rpx;
+    height: 650rpx;
+    margin:0 8rpx; 
+}
+
+

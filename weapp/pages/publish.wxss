@@ -1,0 +1,40 @@
+.container {
+  background-color: white;
+  color: #505050;
+}
+.notice {
+  margin: 10px;
+  padding: 8px;
+  background-color: #ebf4fe;
+  font-size: 11px;
+  color: #969696;
+}
+.title {
+  width: 100%;
+  padding: 8px;
+  font-size: 11px;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid #dcdcdc;
+  text-align: center;
+}
+.items {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.item1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  width: 140rpx;
+  height: 140rpx;
+}
+.item1 image {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 10rpx;
+}
+

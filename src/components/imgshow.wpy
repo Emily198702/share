@@ -1,0 +1,50 @@
+<style type="less">
+.imgshow {
+    
+}
+.image1{
+    width: 150rpx;
+    height: 150rpx;
+    margin:0 8rpx; 
+}
+
+.image2{
+    width: 650rpx;
+    height: 650rpx;
+    margin:0 8rpx; 
+}
+
+</style>
+<template>
+  <div class="imgshow">
+    <block wx:for="{{imgArr}}" wx:key="{{index}}">
+        <image class="{{imageClass}}" src="{{item}}" mode="{{!!type ? 'widthFix': 'scaleToFill'}}" data-index="{{index}}"/>
+    </block>
+  </div>
+</template>
+<script>
+  import wepy from '@wepy/core';
+
+  wepy.component({
+    props:  ['imgStr','type'],
+    data: {
+        imgArr:[],
+        imageClass:'image1'
+    },
+    methods: {
+      tap () {
+       
+      }
+    },
+
+    ready: function() {
+    //  组件生命周期函数-在组件布局完成后执行)	
+      if(this.imgStr){
+        this.imgArr = this.imgStr.split(",")
+      }
+      if(this.type){
+        this.imageClass='image2'
+      }
+    },
+  });
+</script>

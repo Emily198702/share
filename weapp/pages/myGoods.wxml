@@ -1,0 +1,14 @@
+
+
+<view class="container">
+
+  <view class="tabdiv"> 
+      <view data-wpy-evt="13-0" bindtap="_proxy" class="normal {{ [ selectedId == 0 ? 'selected' : '' ] }}">全部</view>
+      <view data-wpy-evt="13-1" bindtap="_proxy" class="normal {{ [ selectedId == 1 ? 'selected' : '' ] }}">审核中</view>
+      <view data-wpy-evt="13-2" bindtap="_proxy" class="normal {{ [ selectedId == 2 ? 'selected' : '' ] }}">已通过</view>
+      <view data-wpy-evt="13-3" bindtap="_proxy" class="normal {{ [ selectedId == 3 ? 'selected' : '' ] }}">已拒绝</view>
+  </view>
+
+  <listitem bind_init="_initComponent" goods-list="{{goodsList}}" page-type="1" data-wpy-evt="13-4" bindrefresh="_proxy" style="width:100%"></listitem>
+
+</view>

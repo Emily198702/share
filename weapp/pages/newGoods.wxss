@@ -1,0 +1,108 @@
+.content {
+  font-size: 13px;
+}
+.googsdiv {
+  padding: 10px 10px 0 10px;
+  background-color: white;
+}
+.googsdiv .title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #bfbfbf;
+}
+.googsdiv .desc {
+  font-size: 12px;
+  margin-top: 10px;
+}
+.googsdiv .img {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.googsdiv .img .addimage {
+  border: 1px solid #e3e3e3;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 10rpx;
+}
+.googsdiv .img .del {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  left: 10px;
+}
+.contact {
+  padding: 0 10px;
+  margin-top: 5px;
+  background-color: white;
+  font-size: 13px;
+}
+.contact .contact1 {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e3e3e3;
+}
+.contact .contact1 .contitle {
+  width: 70px;
+  display: flex;
+  justify-content: space-between;
+}
+.contact .contact1 input {
+  width: 200px;
+}
+.locate {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.locate image {
+  width: 40rpx;
+  height: 40rpx;
+}
+.istop {
+  padding: 2px 10px;
+  margin-top: 5px;
+  background-color: white;
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #8a8a8a;
+}
+.addbtn {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  font-size: 14px;
+  background-color: #f62a94;
+}
+.agree {
+  padding: 10px 10px;
+  color: #8a8a8a;
+}
+.addlist {
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  background-color: white;
+  width: 100%;
+  font-size: 12px;
+}
+.address {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20rpx;
+  padding-bottom: 10rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  border-bottom: 1px solid lightgray;
+}
+.address image {
+  width: 40rpx;
+  height: 40rpx;
+}
+

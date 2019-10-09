@@ -1,0 +1,14 @@
+{
+    "navigationBarTitleText": "二手母婴",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f62a94",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": true,
+    "onReachBottomDistance": 50,
+    "component": true,
+    "usingComponents": {
+        "listitem": "../components/listitem",
+        "categories": "../components/categories"
+    }
+}

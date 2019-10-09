@@ -1,0 +1,244 @@
+<style type="less">
+.listitem {
+
+}
+.detail{
+    color: #636363;
+    padding: 30rpx;
+    margin-bottom: 15rpx;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+.userdiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.userinfo{
+  display: flex;
+  flex-direction: row;
+}
+
+.userinfo image{
+    width:110rpx;
+    height:110rpx;
+    margin-right: 25rpx;
+}
+
+.userinfo .nickname{
+    color:#39a2bb;
+    font-size: 32rpx;
+}
+
+
+.operation{
+  float: right;
+}
+.operation image{
+  width:50rpx;
+  height:50rpx;
+  margin:10rpx;
+} 
+
+
+.goodsdiv .desc{
+    font-size: 30rpx;
+    margin:10rpx 0;
+}
+
+.goodsdiv .time{
+    display: flex;
+    flex-direction: row;
+    font-size: 24rpx;
+    
+}
+.goodsdiv .location{
+    font-size: 26rpx;
+    color: #39a2bb;
+    margin:10rpx 0;
+    
+}
+
+.goodsdiv .location image{
+    width: 30rpx;
+    height: 30rpx;
+    margin-right:5rpx;
+}
+
+.other{
+    padding: 0 20rpx;
+    background-color: #f3f3f3;
+    height: 56rpx;
+    color:#606060;
+    font-size: 26rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.other1{
+    display: flex;
+    align-items: center;
+    
+}
+
+.other1 image{
+    width: 38rpx;
+    height: 38rpx;
+    margin:0 10rpx;
+}
+
+.other1 .num{
+    color: #39a2bb;
+}
+
+</style>
+<template>
+  <div class="listitem">
+    
+    <div class="detail"  v-for="item in goodsList" v-bind:key="item.id">
+     
+      <div class="userdiv">
+        <div class="userinfo">
+          <image  src="{{ item.avatarUrl }}" />
+          <div>
+            <span class="nickname">{{ item.nickName }}</span>
+            <category cat-id="{{item.category}}"></category> 
+          </div>
+        </div>
+        <div class="operation" v-if="pageType==1">
+          <image src="../assets/images/edit.png" @tap="tapEdit(item.id)"/>
+          <image src="../assets/images/delete.png" @tap="tapDel(item.id)"/>
+        </div>
+      </div>
+      <div class="goodsdiv"  @tap="showDetail(item.id)">
+          <div class="desc">【{{item.title}}】{{item.description}}</div>          
+          <imgshow img-str="{{item.image}}" v-if="item.image!==''"></imgshow>
+          <div class="time"> 
+            <dateshow date-str="{{item.createDate}}"></dateshow> 
+            <span> 发布</span>
+            <span class="num" @tap="showDetail(item.id)" v-if="pageType==0" style="margin-left:300rpx">查看详情>></span>
+          </div>
+          <div class="location" v-if="pageType!=0">
+            <image src="../assets/images/location.png" />
+            <span>{{item.location}}</span>
+          </div>
+
+          
+      </div>
+
+      <div class="other" v-if="pageType!=0"> 
+        <div class="other1">
+          <image src="../assets/images/browse.png" />
+          
+          <span class="num">{{item.browse}}</span>
+            人浏览
+          <image src="../assets/images/like.png" />
+          <span class="num">{{item.likeMe}}</span>
+            人点赞
+        </div>
+        <span class="num" @tap="showDetail(item.id)">查看详情>></span>
+        </div>
+    </div>
+     
+  </div>
+</template>
+<script>
+  import wepy from '@wepy/core';
+  import store from '../store';
+
+
+  //page-type: 0 收藏页 不显示浏览和点赞  1 我的物品 显示编辑和删除 
+
+  wepy.component({
+    store,
+    props: ['goodsList','pageType' ],
+    data: {
+    },
+    watch:{
+      goodsList(val){
+        console.log(val.map(f=>f.image))
+      }
+    },
+    methods: {
+      showDetail:function(id){
+        let _this = this
+        wx.request({
+          url: `${this.$app.$options.globalData.host}/getGoodsById?id=${id}`,
+          method: 'GET',  
+          header: {
+            'content-type': 'application/json'
+          }, 
+          success: function (res) {
+            if (res.statusCode == 200) {
+              let goods = res.data
+              _this.$store.dispatch('setItem',goods)
+              console.log(goods)
+              _this.$parent.$navigate( {url:'/pages/detail'})
+
+            } else {
+              console.log("根据id获取物品失败" + res.statusCode)
+            }            
+          },
+          fail: function () {
+            console.log("fail：根据id获取物品失败");
+          }, 
+        })     
+      },
+
+      tapEdit:function(id){
+        this.$parent.$navigate({
+          url:'/pages/newGoods?goodsId='+id
+        })
+      },
+
+      tapDel:function(id){
+        console.log("del")
+        let _this = this
+        wx.request({
+          url: `${this.$app.$options.globalData.host}/delGoods?id=${id}`,
+          method:'POST',
+          header:{
+            'content-type': 'application/json'
+          }, 
+          success:function(res){
+            if(res.data>0){
+              console.log('删除物品delGoods成功')
+              wx.showToast({
+                title: '删除成功',
+                icon: 'success',
+                duration: 3000
+              })
+              //_this.$parent.getData()
+              _this.$emit('refresh');//触发事件
+            }else{
+              console.log('删除物品异常')
+            }
+          },
+          fail:function(res){
+            console.log('fail：删除物品失败')
+          }
+        })
+
+      }
+
+
+    },
+
+   
+    
+  });
+</script>
+
+<config>
+{
+    
+    usingComponents: {
+      dateshow: '../components/dateshow',
+      imgshow: '../components/imgshow',
+      category: '../components/category'
+    }
+}

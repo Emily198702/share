@@ -1,0 +1,54 @@
+{
+    "pages": [
+        "pages/auth",
+        "pages/index2",
+        "pages/newGoods",
+        "pages/userInfo",
+        "pages/search",
+        "pages/attention",
+        "pages/detail",
+        "pages/publish",
+        "pages/myGoods",
+        "pages/myCollection",
+        "pages/gdMap",
+        "pages/storeLogin"
+    ],
+    "permission": {
+        "scope.userLocation": {
+            "desc": "您的位置信息将用于小程序位置接口的效果展示"
+        }
+    },
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#f62a94",
+        "backgroundColor": "#f62a94",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "#a9b7b7",
+        "selectedColor": "#11cd6e",
+        "borderStyle": "white",
+        "list": [
+            {
+                "selectedIconPath": "assets/images/main1.png",
+                "iconPath": "assets/images/main.png",
+                "pagePath": "pages/index2",
+                "text": "首页"
+            },
+            {
+                "selectedIconPath": "assets/images/new1.png",
+                "iconPath": "assets/images/new.png",
+                "pagePath": "pages/publish",
+                "text": "发布"
+            },
+            {
+                "selectedIconPath": "assets/images/mine1.png",
+                "iconPath": "assets/images/mine.png",
+                "pagePath": "pages/userInfo",
+                "text": "我的"
+            }
+        ]
+    },
+    "component": true,
+    "usingComponents": {}
+}

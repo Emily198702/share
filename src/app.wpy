@@ -1,0 +1,133 @@
+<style lang="less">
+@import (css) './assets/weui.wxss';
+page{
+    background-color: #f0f0f0;
+} 
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+</style>
+
+<script>
+import wepy from '@wepy/core';
+import eventHub from './common/eventHub';
+import vuex from '@wepy/x';
+
+wepy.use(vuex); 
+
+const APP_ID = 'wx2ff9336c8b22516d'; 
+const APP_SECRET = '594abf8575bcf4dd1ca510b479554542'; 
+
+wepy.app({
+  hooks: {
+    // App 级别 hook，对整个 App 生效
+    // 同时存在 Page hook 和 App hook 时，优先执行 Page hook，返回值再交由 App hook 处
+    // 'before-setData': function (dirty) {
+    //   console.log('setData dirty: ', dirty);
+    //   return dirty;
+    // }
+  },
+  globalData: {
+    userInfo: null,
+    host: 'http://localhost:8000',  //'https://tomcat.guoyingxu.com/share/',// www.guoyingxu.com
+    openid:null,
+  },
+
+  onLaunch() {
+    this.getOpenIdTap() 
+  },
+
+  methods: {
+
+    getOpenIdTap: function () {
+      var that = this;
+      wx.login({
+        success: function (res) {
+          wx.request({
+            //获取openid接口
+            url: 'https://api.weixin.qq.com/sns/jscode2session',
+            data: {
+              appid: APP_ID,
+              secret: APP_SECRET,
+              js_code: res.code,
+              grant_type: 'authorization_code'
+            },
+            method: 'GET',
+            success: function (res) {
+              console.log(res.data)
+              
+              that.$options.globalData.openid = res.data.openid;
+            }
+          })
+        }
+      })
+    }, 
+  }
+}); 
+</script>
+<config>
+{
+
+    "pages": [
+      "pages/auth",
+
+      "pages/index2",
+      'pages/newGoods',
+      'pages/userInfo',
+      'pages/search',
+      'pages/attention',
+      'pages/detail',
+      'pages/publish',
+      'pages/myGoods',
+      'pages/myCollection',
+      'pages/gdMap',
+      'pages/storeLogin',
+
+
+    ],
+
+    "permission":{
+      "scope.userLocation":{
+        "desc":"您的位置信息将用于小程序位置接口的效果展示"
+      }
+    },
+
+    "window": {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#f62a94', 
+      backgroundColor: '#f62a94',
+      navigationBarTextStyle: 'black'
+    },
+    "tabBar": {
+      "color": "#a9b7b7",
+      "selectedColor": "#11cd6e",
+      "borderStyle": "white",
+      "list": [
+        {
+          "selectedIconPath": "assets/images/main1.png",
+          "iconPath": "assets/images/main.png",
+          "pagePath": "pages/index2",
+          "text": "首页"
+        },
+        {
+          
+          "selectedIconPath": "assets/images/new1.png",
+          "iconPath": "assets/images/new.png",
+          "pagePath": "pages/publish",
+          "text": "发布"
+        },
+        {
+          "selectedIconPath": "assets/images/mine1.png",
+          "iconPath": "assets/images/mine.png",
+          "pagePath": "pages/userInfo",
+          "text": "我的"
+        } 
+      ]
+    }
+} 
+</config>

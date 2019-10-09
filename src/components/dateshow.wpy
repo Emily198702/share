@@ -1,0 +1,27 @@
+<style type="less">
+.dateshow {
+}
+</style>
+<template>
+  <div class="dateshow">
+    {{formatD}}
+  </div>
+</template>
+<script>
+  import wepy from '@wepy/core';
+
+  wepy.component({
+    props:  ['dateStr'],
+    data: {
+    },
+    methods: {
+      
+    },
+    computed:{
+        formatD: function () {
+            let {formatDate} = require('../common/util.js')
+            return formatDate(this.dateStr)
+        },
+    }
+  });
+</script>

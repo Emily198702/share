@@ -1,0 +1,15 @@
+
+
+<view class="container">
+  <view class="map_container">
+      <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="16" markers="{{markers}}" class="map"></map>  
+  </view>
+
+  
+  <view class="list">
+      <view wx:for="{{ addresses }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ item.id }}" data-wpy-evt="15-0" bindtap="_proxy" data-wpytap-a="{{ item }}" class="address">
+          {{item.address.name}}
+          <image src="../assets/images/selected.png" wx:if="{{ selected==item.id }}"></image>
+      </view>
+  </view>
+</view>

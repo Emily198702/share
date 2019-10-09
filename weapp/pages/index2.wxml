@@ -1,0 +1,22 @@
+
+
+<view>
+  <view class="search"> 
+    <label>︿</label>
+    <view class="search2"> 
+      <image src="../assets/images/search.png"></image>     
+      <input type="search" placeholder="搜索" required="" data-wpy-evt="6-0" bindtap="_proxy" class="weui-search-bar__input">
+    </input></view>
+  </view>
+
+  <categories bind_init="_initComponent"></categories>
+
+  <view class="navi">
+      <view data-wpy-evt="6-1" bindtap="_proxy" class="normal {{ [ selectedId == 0 ? 'selected' : '' ] }}">最新闲置</view>
+      <view data-wpy-evt="6-2" bindtap="_proxy" class="normal {{ [ selectedId == 1 ? 'selected' : '' ] }}">商家活动</view>
+  </view>
+
+  <listitem bind_init="_initComponent" goods-list="{{goodsList}}"></listitem>
+   
+  <view wx:if="{{ noMore }}" class="nomore">--没有更多了--</view>
+ </view>

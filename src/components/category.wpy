@@ -1,0 +1,67 @@
+<style type="less">
+.category{
+    background-color: #12dba5;
+    color: white;
+    font-size: 26rpx;
+    border-radius: 6rpx;
+    padding: 2rpx 2rpx;
+    font-weight: 100;
+    width:110rpx;
+    white-space: nowrap;
+}
+</style>
+<template>
+  <div class="category">
+      
+    {{catName}}
+     
+  </div>
+</template>
+<script>
+  import wepy from '@wepy/core';
+
+  wepy.component({
+    props:  ['catId'],
+    data: {
+        catName:''
+    },
+    methods: { 
+      
+    },
+    
+
+    ready: function() {
+        //组件生命周期函数-在组件布局完成后执行)	
+        if(!this.catId){
+            return
+        }
+        let _this = this
+        wx.request({
+            url: `${this.$app.$options.globalData.host}/getCatName?id=${this.catId}`,
+            method: 'GET',  
+            header: {
+                'content-type': 'application/json'
+            }, 
+
+            success: function (res) {
+                if (res.statusCode == 200) {
+                    //console.log(res.data)
+                    _this.catName = res.data
+                } else {
+                    console.log("获取类别名称异常" + res.statusCode)
+                }
+                
+            },
+            fail: function () {
+                console.log("获取类别名称失败");
+            },
+            complete: function () {
+                // complete
+            }
+        })
+    }
+
+
+
+  });
+</script>

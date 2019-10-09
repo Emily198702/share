@@ -1,0 +1,124 @@
+<style lang="less">
+.tabdiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    font-size: 13px;   
+    border-bottom: 2px solid lightgrey;
+    background-color: white;
+}
+
+.normal{ 
+    border-bottom: 2px solid transparent;
+    line-height: 28px;
+    width: 20%;
+    text-align: center;
+}
+
+.selected{
+    color: #f62a94;
+    border-bottom: 2px solid #f62a94;
+    line-height: 28px;
+    width: 20%;
+    text-align: center;
+} 
+
+ 
+  
+</style>
+ 
+<template>
+
+  <div class="container">
+
+    <div class="tabdiv"> 
+        <div @tap="selectMe(0)" class="normal" :class="{selected: selectedId == 0}" >全部</div>
+        <div @tap="selectMe(1)"  class="normal" :class="{selected: selectedId == 1}" >审核中</div>
+        <div @tap="selectMe(2)"  class="normal" :class="{selected: selectedId == 2}" >已通过</div>
+        <div @tap="selectMe(3)"  class="normal" :class="{selected: selectedId == 3}" >已拒绝</div>
+    </div>
+
+    <listitem style="width:100%" goods-list = "{{goodsList}}" page-type="1" @refresh="getData"></listitem>
+
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import store from '../store';
+
+ 
+  wepy.page({
+    store,
+    data: {
+        userInfo:null,
+        goodsList:[],
+        selectedId:0,
+     },
+
+    methods: {
+
+        selectMe:function(index){
+            this.selectedId = index 
+            this.getData()
+        },
+
+        getData:function(){
+
+            let url = `${this.$app.$options.globalData.host}/selectByOpenid?openid=${this.userInfo.openid}&status=${this.selectedId}`
+            let _this = this
+            wx.request({
+            url: url,
+            method: 'GET',  
+            header: {
+                'content-type': 'application/json'
+            }, 
+
+            success: function (res) {
+                if (res.statusCode == 200) {
+                    console.log(res.data)
+                    _this.goodsList = res.data
+
+                } else {
+                    console.log("获取我的物品异常" + res.statusCode)
+                }
+                
+            },
+            fail: function () {
+                console.log("获取我的物品失败");
+            },
+            complete: function () {
+                // complete
+            }
+            })
+        },
+
+         
+
+    },
+
+    onLoad:function(options) {    
+      this.userInfo = this.$app.$options.globalData.userInfo
+      this.getData()
+    },
+
+    
+  });
+</script>
+
+<config>
+{
+    "navigationBarTitleText": "我发布的",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+
+    
+    usingComponents: {
+       
+      listitem: '../components/listitem',
+    }
+}
+</config>

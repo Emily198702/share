@@ -1,0 +1,84 @@
+<style lang="less">
+    .container{
+        background-color: white;
+        color: rgb(80, 80, 80);
+
+    }
+    .notice{
+        margin:10px;
+        padding:8px;
+        background-color: #ebf4fe;
+        font-size: 11px;
+        color: rgb(150, 150, 150);
+    }
+
+    .title{
+        width:100%;
+        padding:8px;
+        font-size: 11px;
+        border-top: 1px solid lightgray;
+        border-bottom: 1px solid rgb(220, 220, 220);
+        text-align: center;
+    }
+
+    .items{
+        margin:10px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        
+    }
+
+    .item1{
+        display: flex;
+        flex-direction: column;
+        align-items:center;
+        font-size: 12px;
+        width: 140rpx;
+        height: 140rpx;
+    }
+
+    .item1 image{
+        width: 60rpx;
+        height: 60rpx;
+        margin-bottom: 10rpx;
+    }
+
+  
+</style>
+ 
+<template>
+
+  <div class="container">
+      <div class="notice">
+          免责声明：平台只负责发布、展示，商品等其他信息与平台本身无关，平台不负任何责任。
+      </div>
+      <div class="title">———请选择您要发布的栏目———</div>
+
+      <categories page-type="new"></categories>
+      
+
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+ 
+wepy.page({
+    
+ 
+    
+});
+</script>
+<config>
+{
+    "navigationBarTitleText": "发布",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white" ,
+
+    usingComponents: {
+      categories: '../components/categories',
+    }
+}
+</config>

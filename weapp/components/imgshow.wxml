@@ -1,0 +1,6 @@
+
+<view class="imgshow">
+  <block wx:for="{{imgArr}}" wx:key="{{index}}">
+      <image src="{{item}}" mode="{{!!type ? 'widthFix': 'scaleToFill'}}" data-index="{{index}}" class="{{imageClass}}"></image>
+  </block>
+</view>

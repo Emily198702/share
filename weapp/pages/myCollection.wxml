@@ -1,0 +1,13 @@
+
+
+<view class="container">
+
+  <view class="tabdiv"> 
+      <view data-wpy-evt="14-0" bindtap="_proxy" class="normal {{ [ selectedId == 0 ? 'selected' : '' ] }}">收藏物品</view>
+      <view data-wpy-evt="14-1" bindtap="_proxy" class="normal {{ [ selectedId == 1 ? 'selected' : '' ] }}">收藏店铺</view>
+
+  </view>
+
+  <listitem bind_init="_initComponent" goods-list="{{goodsList}}" page-type="0" style="width:100%"></listitem>
+
+</view>

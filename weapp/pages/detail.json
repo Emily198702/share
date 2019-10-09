@@ -1,0 +1,11 @@
+{
+    "navigationBarTitleText": "宝贝详情",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "dateshow": "../components/dateshow",
+        "imgshow": "../components/imgshow",
+        "category": "../components/category"
+    }
+}

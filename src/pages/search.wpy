@@ -1,0 +1,174 @@
+<style lang="less">
+  .search{
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    height: 30px;
+
+    .search2{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      background-color: white;
+      border-radius: 15px;
+      
+      image{
+        width: 20px;
+        height: 20px;
+        margin: 5px 5px;
+      }
+      input{
+        width:100%;
+      }
+      
+    }
+    button{
+        color:white;
+        font-size: 12px;
+        background-color: #f62a94;
+        margin-left: 10px;
+      }
+   
+  }
+
+  .nomore{
+    font-size:12px;
+    color:#808080;
+    background-color: white;
+    text-align: center;
+    width:100%;
+    padding:20rpx;
+    margin-top:-15rpx;
+  }
+  
+</style>
+ 
+<template>
+
+  <div class="container">
+
+    <div class="search"> 
+
+      <div class="search2"> 
+          <img src="../assets/images/search.png"/>     
+          <input type="search" class="weui-search-bar__input" placeholder="搜索" required="" v-model="condition">
+      </div>  
+      <button @click="search">搜索</button>
+    </div>
+
+    <listitem style="width:100%" goods-list = "{{goodsList}}"></listitem>
+
+    <div class="nomore" v-if="noMore">--没有更多了--</div>
+
+  </div>
+</template>
+
+<script>
+  import wepy from '@wepy/core'
+  import store from '../store';
+
+ 
+  wepy.page({
+    store,
+    data: {
+      condition:null,
+      goodsList:[],
+      page:0,
+      pageSize:5,
+      curUrl:null,
+      noMore:false
+    },
+
+    methods: {
+
+      getData:function(){
+
+        let url = this.curUrl+`page=${this.page}&pageSize=${this.pageSize}`
+        
+        let _this = this
+        wx.request({
+          url: url,
+          method: 'GET',  
+          header: {
+            'content-type': 'application/json'
+          }, 
+
+          success: function (res) {
+            if (res.statusCode == 200) {
+              console.log(res.data)
+              let len = res.data.length
+              if(len==0 || (_this.page==0&&len<10)){
+                _this.noMore = true
+              }
+              if(len>0){
+                _this.goodsList = _this.goodsList.concat(res.data)  
+              }
+
+            } else {
+              console.log("查询页面获取数据异常" + res.statusCode)
+            }
+            
+          },
+          fail: function () {
+            console.log("查询页面获取数据失败");
+          },
+          complete: function () {
+            // complete
+          }
+        })
+      },
+
+      search(){
+        console.log("search",this.condition)
+
+        this.goodsList = []
+        this.page = 0
+
+        this.curUrl = `${this.$app.$options.globalData.host}/selectByPage?` 
+
+        if(this.condition){
+          this.curUrl = `${this.$app.$options.globalData.host}/selectByCondition?condition=${this.condition}&`
+        }
+
+        this.getData()
+      },
+    },
+
+    onLoad:function(options) {
+      console.log("onLoad search...")
+      if(options.catId){
+        this.curUrl = `${this.$app.$options.globalData.host}/selectByCat?catId=${options.catId}&`
+        this.getData()
+      }  
+    },
+
+
+    onPullDownRefresh() {
+      console.log('下拉刷新 ')
+      this.page = 0
+      this.getData()
+    },
+
+    onReachBottom(){
+      this.page = this.page + 1
+      this.getData(this.page)
+    }
+
+    
+  });
+</script>
+<config>
+{
+    "navigationBarTitleText": "搜索",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+
+ 
+    
+    usingComponents: {
+       
+      listitem: '../components/listitem',
+    }
+}
+</config>

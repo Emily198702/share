@@ -1,0 +1,6 @@
+
+<view class="category">
+    
+  {{catName}}
+   
+</view>

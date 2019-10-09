@@ -1,0 +1,9 @@
+{
+    "navigationBarTitleText": "发布",
+    "navigationBarBackgroundColor": "#f62a94",
+    "navigationBarTextStyle": "white",
+    "component": true,
+    "usingComponents": {
+        "categories": "../components/categories"
+    }
+}

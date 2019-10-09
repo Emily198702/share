@@ -1,0 +1,95 @@
+.search {
+  background-color: #f62a94;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+.search2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border-radius: 15px;
+  margin: 5px;
+  width: 65%;
+}
+.search2 image {
+  width: 40rpx;
+  height: 40rpx;
+}
+.search2 input {
+  height: 10px;
+  font-size: 26rpx;
+}
+.navi {
+  font-size: 32rpx;
+  color: #8a8a8a;
+  background-color: white;
+  margin: 15rpx 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+}
+.navi .normal {
+  border-bottom: 2px solid transparent;
+  line-height: 28px;
+  width: 20%;
+  text-align: center;
+}
+.navi .selected {
+  color: #f62a94;
+  border-bottom: 2px solid #f62a94;
+  line-height: 28px;
+  width: 20%;
+  text-align: center;
+}
+.info {
+  padding-right: 10rpx;
+}
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userinfo-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+.userinfo-nickname {
+  color: #aaa;
+}
+.slide {
+  width: 640rpx;
+  display: flex;
+  border: 1rpx solid #ccc;
+  font-size: 28rpx;
+  align-items: center;
+  box-sizing: border-box;
+}
+.slide .left {
+  width: 750rpx;
+  padding: 20rpx;
+}
+.slide .right {
+  display: flex;
+}
+.slide .right .right-item {
+  padding: 20rpx 30rpx;
+  background-color: red;
+  color: #fff;
+}
+.nomore {
+  font-size: 10px;
+  color: #808080;
+  background-color: white;
+  text-align: center;
+  width: 100%;
+  padding: 20rpx;
+  margin-top: -15rpx;
+}
+

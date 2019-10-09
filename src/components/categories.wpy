@@ -1,0 +1,100 @@
+<style type="less">
+ 
+.categories{
+    background-color: white;
+    padding:20rpx 20rpx 0 20rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;    
+}
+
+.item1{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    font-size: 12px;
+    width: 140rpx;
+    height: 120rpx;
+}
+
+.item1 image{
+    width: 60rpx;
+    height: 60rpx;
+    margin-bottom: 8rpx;
+}
+
+</style>
+<template>
+  <div class="categories">
+    <div class="item1" v-for="item in categories" v-bind:key="item.id" @tap="tapNew(item.id)">
+        <img src="{{item.img}}"/> 
+        {{item.name}}
+    </div>
+      
+  </div>
+</template>
+<script>
+  import wepy from '@wepy/core';
+
+  wepy.component({
+    props:['pageType'],
+    data: {
+        categories:[]
+    },
+    methods: { 
+      
+        tapNew(id){
+
+            console.log("tap",id)
+
+            if(this.pageType=="new"){ //发布页面选择类别
+                let url = '/pages/newGoods?catId='+id
+                this.$parent.$navigate( {url:url})
+            }else{ //首页查询选择类别
+                let url = '/pages/search?catId='+id
+                this.$parent.$navigate( {url:url})
+            }
+            
+        }
+
+    },
+    
+
+    ready: function() {
+        //组件生命周期函数-在组件布局完成后执行)	
+         
+        let _this = this
+            
+            wx.request({
+            url: `${this.$app.$options.globalData.host}/selectCategory?type=1`,
+            method: 'GET',  
+            header: {
+                'content-type': 'application/json'
+            }, 
+
+            success: function (res) {
+                if (res.statusCode == 200) {
+                    //console.log(res.data)
+                    _this.categories = res.data
+                } else {
+                    console.log("获取类别列表异常" + res.statusCode)
+                }
+                
+            },
+            fail: function () {
+                console.log("获取类别列表失败");
+            },
+            complete: function () {
+                // complete
+            }
+        })
+         
+
+
+    }
+
+
+
+  });
+</script>
