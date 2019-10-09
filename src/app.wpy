@@ -34,7 +34,7 @@ wepy.app({
   },
   globalData: {
     userInfo: null,
-    host: 'http://localhost:8000',  //'https://tomcat.guoyingxu.com/share/',// www.guoyingxu.com
+    host: 'https://tomcat.guoyingxu.com/share/',// 'http://localhost:8000',  //
     openid:null,
   },
 
